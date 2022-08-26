@@ -124,7 +124,7 @@ module Wallop
   end
 
   def self.lineup
-    lineup = @lineup ||= JSON.parse(open(hdhomerun_lineup_url).read)
+    lineup = @lineup ||= JSON.parse(URI.open(hdhomerun_lineup_url).read)
     lineup.each do |l|
       l['Favorite'] = false
 
@@ -162,7 +162,7 @@ module Wallop
   def self.favorite_channels
     @favorite_channels ||= begin
       if File.exists?(FAVORITE_CHANNELS_PATH)
-        JSON.parse(open(FAVORITE_CHANNELS_PATH).read)
+        JSON.parse(URI.open(FAVORITE_CHANNELS_PATH).read)
       else
         []
       end
@@ -181,7 +181,7 @@ module Wallop
   end
 
   def self.save_favorite_channels
-    open(FAVORITE_CHANNELS_PATH, 'w+') do |f|
+    URI.open(FAVORITE_CHANNELS_PATH, 'w+') do |f|
       f.write JSON.dump(favorite_channels)
     end
   end
